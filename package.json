@@ -1,0 +1,34 @@
+{
+    "name": "app.foragd.twa",
+    "version": "0.0.0",
+    "description": "Foragd is a web-based RSS and feed reader. Follow any website, blog or newsletter in one place. No algorithms, no ads, fully searchable.",
+    "keywords": [
+        "android",
+        "foragd",
+        "rss",
+        "atom"
+    ],
+    "homepage": "https://github.com/immanent-tech/foragd-android#readme",
+    "bugs": {
+        "url": "https://github.com/immanent-tech/foragd-android/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/immanent-tech/foragd-android.git"
+    },
+    "license": "AGPL-3.0-or-later",
+    "author": "Joshua Rich",
+    "type": "module",
+    "main": "index.js",
+    "scripts": {
+        "bubblewrap:update": "dotenv -e .env bash ./set-build-env.sh && bubblewrap update --manifest ./twa-manifest-generated.json && ./edit-launchactivity.sh",
+        "bubblewrap:build": "dotenv -e ../.env.${input:environment} bubblewrap build --manifest ./twa-manifest-generated.json"
+    },
+    "devDependencies": {
+        "@bubblewrap/cli": "^1.24.1"
+    },
+    "browserslist": "last 2 years, not dead, > 0.2%",
+    "@parcel/resolver-default": {
+        "packageExports": true
+    }
+}

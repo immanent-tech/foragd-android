@@ -1,0 +1,42 @@
+{
+    "name": "foragd-android",
+    "dockerComposeFile": "docker-compose.yml",
+    "service": "devcontainer",
+    "postCreateCommand": "bash .devcontainer/postcreate.sh",
+    "containerUser": "vscode",
+    "containerEnv": {
+        "HOME": "/home/vscode"
+    },
+    "remoteEnv": {
+        "PODMAN_COMPOSE_WARNING_LOGS": "false",
+        "TZ": "${localEnv:TZ:Australia/Brisbane}",
+        "EDITOR": "micro",
+        "BUILDX_BUILDER": "default-rootless"
+    },
+    "updateRemoteUserUID": true,
+    "workspaceFolder": "/workspace",
+    "shutdownAction": "stopCompose",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ymotongpoo.licenser",
+                "tamasfe.even-better-toml",
+                "redhat.vscode-yaml",
+                "esbenp.prettier-vscode",
+                "yzhang.markdown-all-in-one",
+                "DavidAnson.vscode-markdownlint",
+                "dnut.rewrap-revived",
+                "DotJoshJohnson.xml",
+                "redhat.vscode-xml",
+                "eliostruyf.vscode-front-matter",
+                "ms-azuretools.vscode-containers",
+                "oderwat.indent-rainbow",
+                "adam-bender.commit-message-editor",
+                "kamikillerto.vscode-colorize",
+                "PWABuilder.pwa-studio",
+                "vscjava.vscode-gradle",
+                "redhat.java"
+            ]
+        }
+    }
+}
