@@ -56,9 +56,9 @@ android {
     defaultConfig {
         applicationId "app.foragd.twa"
         minSdkVersion 24
-        targetSdkVersion 35
-        versionCode 10
-        versionName "0.167"
+        targetSdkVersion 36
+        versionCode 11
+        versionName "v0.211.0"
 
         // The name for the application
         resValue "string", "appName", twaManifest.name
@@ -208,7 +208,7 @@ repositories {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     
-        implementation 'com.google.androidbrowserhelper:billing:1.1.0'
+        implementation 'com.google.androidbrowserhelper:billing:1.2.0'
     
         implementation 'com.google.androidbrowserhelper:androidbrowserhelper:2.6.2'
     

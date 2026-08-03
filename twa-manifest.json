@@ -20,8 +20,8 @@
     "alias": "__ANDROID_KEYSTORE_ALIAS__",
     "path": "__ANDROID_KEYSTORE_PATH__"
   },
-  "appVersionName": "0.167",
-  "appVersionCode": 9,
+  "appVersionName": "0.211.0",
+  "appVersionCode": 10,
   "shortcuts": [
     {
       "name": "Go to Subscriptions",
