@@ -22,10 +22,11 @@
     "main": "index.js",
     "scripts": {
         "bubblewrap:update": "dotenv -e .env bash ./set-build-env.sh && bubblewrap update --manifest ./twa-manifest-generated.json && ./edit-launchactivity.sh",
-        "bubblewrap:build": "dotenv -e ../.env.${input:environment} bubblewrap build --manifest ./twa-manifest-generated.json"
+        "bubblewrap:build": "dotenv -e .env bubblewrap build --manifest ./twa-manifest-generated.json",
+        "bubblewrap:doctor": "dotenv -e .env bubblewrap doctor"
     },
     "devDependencies": {
-        "@bubblewrap/cli": "^1.24.1"
+        "@bubblewrap/cli": "^1.25.0"
     },
     "browserslist": "last 2 years, not dead, > 0.2%",
     "@parcel/resolver-default": {
