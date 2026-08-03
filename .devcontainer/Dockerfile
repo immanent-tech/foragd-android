@@ -2,57 +2,47 @@
 # SPDX-License-Identifier: 	AGPL-3.0-or-later
 
 # https://mcr.microsoft.com/artifact/mar/devcontainers/base
-ARG CONTAINER_VERSION=dev-ubuntu26.04@sha256:08b927560c4f83bcdaa324d95c25bbb8a3857aff53c2ffae5a9d9cd9bec6850b
+ARG CONTAINER_VERSION=24.04@sha256:52df9b1ee71626e0088f7d400d5c6b5f7bb916f8f0c82b474289a4ece6cf3faf
 # https://hub.docker.com/_/golang
-ARG GO_VERSION=1.26.4@sha256:792443b89f65105abba56b9bd5e97f680a80074ac62fc844a584212f8c8102c3
+ARG GO_VERSION=1.26.5@sha256:dbb10bd1b3400ba0858e2f7c354fd4556b782c187feeff52789d4ee156a84db8
 
 FROM --platform=$BUILDPLATFORM docker.io/golang:${GO_VERSION} AS golang
-FROM mcr.microsoft.com/devcontainers/base:${CONTAINER_VERSION} AS builder
-
-ARG NODE_VERSION=v24.18.0
+FROM docker.io/ubuntu:${CONTAINER_VERSION} AS builder
 
 # Install additional packages
 RUN DEBIAN_FRONTEND=noninteractive apt -y update && \
-    apt -y install fish micro graphviz ca-certificates dotenv-cli \
-    python3 openjdk-17-jdk-headless openjdk-17-jre-headless
+    apt -y install sudo fish git micro graphviz ca-certificates curl python3-dotenv-cli python3
+
+RUN apt-get update && apt-get install -y locales && rm -rf /var/lib/apt/lists/* \
+    && localedef -i en_AU -c -f UTF-8 -A /usr/share/locale/locale.alias en_AU.UTF-8
+ENV LANG en_AU.utf8
 
 # Copy go from official image
 COPY --from=golang /usr/local/go/ /usr/local/go/
 
-# Download and install node:
-RUN sudo curl -L -o- https://nodejs.org/dist/${NODE_VERSION}/node-${NODE_VERSION}-linux-x64.tar.xz \
-    | tar xJvf - --strip-components=1 --exclude=CHANGELOG.md --exclude=LICENSE --exclude=README.md -C /usr/local
-
-# Download and install docker.
-RUN cd /tmp && curl -fsSL https://get.docker.com -o get-docker.sh && sudo sh ./get-docker.sh && rm /tmp/get-docker.sh
-
-# Dowload and install starship.
-RUN cd /tmp && curl -sS https://starship.rs/install.sh | sh -s -- -y || exit -1
-
 # # Add non-root user
-ARG USER_NAME=vscode
+ARG USERNAME=ubuntu
 ARG USER_UID=1000
-ARG USER_GID=$USER_UID
+ARG USER_GID=1000
+
+RUN echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
+    && chmod 0440 /etc/sudoers.d/$USERNAME
 
 RUN echo $USER_UID:100000:65536 > /etc/subuid
 RUN echo $USER_GID:100000:65536 > /etc/subgid
 
-USER $USER_NAME
+USER $USERNAME
 
 ENV _CONTAINERS_USERNS_CONFIGURED=""
 
 # The base container sets XDG_CACHE_HOME XDG_CONFIG_HOME specifically for the root user, we can't unset them in a way that vscode will pick up, so we set them to values for the new user.
 # Installing go extensions via vscode use these paths so if we just leave it set to /root/.cache we'll get permission errors.
-ENV XDG_CONFIG_HOME=/home/$USER_NAME/.config
-ENV XDG_CACHE_HOME=/home/$USER_NAME/.cache
+ENV XDG_CONFIG_HOME=/home/$USERNAME/.config
+ENV XDG_CACHE_HOME=/home/$USERNAME/.cache
 # Set up XDG_RUNTIME_DIR
 RUN export XDG_RUNTIME_DIR=/tmp/$USER_UID-runtime-dir \
     && mkdir $XDG_RUNTIME_DIR \
     && chmod 0700 $XDG_RUNTIME_DIR
 ENV XDG_RUNTIME_DIR=/tmp/$USER_UID-runtime-dir
-# Set up shell(s).
-RUN mkdir -p ~/.config/fish \
-    && echo "starship init fish | source" >>~/.config/fish/config.fish \
-    && echo 'eval "$(starship init bash)"' >>~/.bashrc
 
-ENTRYPOINT ["/usr/bin/fish"]
+ENTRYPOINT ["/usr/bin/bash"]

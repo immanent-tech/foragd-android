@@ -3,9 +3,9 @@
     "dockerComposeFile": "docker-compose.yml",
     "service": "devcontainer",
     "postCreateCommand": "bash .devcontainer/postcreate.sh",
-    "containerUser": "vscode",
+    "containerUser": "ubuntu",
     "containerEnv": {
-        "HOME": "/home/vscode"
+        "HOME": "/home/ubuntu"
     },
     "remoteEnv": {
         "PODMAN_COMPOSE_WARNING_LOGS": "false",

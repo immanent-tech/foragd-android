@@ -32,6 +32,20 @@
             }
         },
         {
+            "label": "bubblewrap:doctor",
+            "type": "shell",
+            "command": "npm run bubblewrap:doctor",
+            "problemMatcher": [],
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "dedicated",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
             "label": "bubblewrap:update",
             "type": "shell",
             "command": "npm run bubblewrap:update",

@@ -10,7 +10,7 @@ services:
       - /etc/localtime:/etc/localtime:ro,cached
       - /run/user/1000/podman/podman.sock:/var/run/docker.sock:rw
     command: -c 'sleep infinity'
-    user: vscode
+    user: ubuntu
     init: true
     group_add:
       - keep-groups
