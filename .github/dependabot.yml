@@ -8,7 +8,11 @@ updates:
     commit-message:
       prefix: "ci(github): ⬆️"
     cooldown:
-        default-days: 7
+      default-days: 7
+    groups:
+      monthly-batch:
+        patterns:
+          - "*"
 
   # Enable version updates for npm
   - package-ecosystem: "npm"
@@ -20,7 +24,11 @@ updates:
     commit-message:
       prefix: "build(npm): ⬆️"
     cooldown:
-        default-days: 7
+      default-days: 7
+    groups:
+      monthly-batch:
+        patterns:
+          - "*"
 
   # Enable version updates for Docker
   - package-ecosystem: "docker"
@@ -32,4 +40,8 @@ updates:
     commit-message:
       prefix: "build(container): ⬆️"
     cooldown:
-        default-days: 7
+      default-days: 7
+    groups:
+      monthly-batch:
+        patterns:
+          - "*"
