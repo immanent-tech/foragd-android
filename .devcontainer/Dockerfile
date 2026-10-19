@@ -11,7 +11,7 @@ FROM docker.io/ubuntu:${CONTAINER_VERSION} AS builder
 
 # Install additional packages
 RUN DEBIAN_FRONTEND=noninteractive apt -y update && \
-    apt -y install sudo fish git micro graphviz ca-certificates curl python3-dotenv-cli python3
+    apt -y install sudo fish git micro graphviz ca-certificates curl python3-dotenv-cli python3 jq
 
 RUN apt-get update && apt-get install -y locales && rm -rf /var/lib/apt/lists/* \
     && localedef -i en_AU -c -f UTF-8 -A /usr/share/locale/locale.alias en_AU.UTF-8

@@ -3,6 +3,10 @@
 
 #!/usr/bin/env bash
 
+# Increment version code.
+jq '.appVersionCode += 1' twa-manifest.json > twa-manifest.json
+
+# Replace placeholders.
 sed \
   -e "s|__ANDROID_KEYSTORE_PATH__|${ANDROID_KEYSTORE_PATH}|g" \
   -e "s|__ANDROID_KEYSTORE_ALIAS__|${ANDROID_KEYSTORE_ALIAS}|g" \
