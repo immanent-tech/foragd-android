@@ -21,7 +21,7 @@
     "path": "__ANDROID_KEYSTORE_PATH__"
   },
   "appVersionName": "0.211.0",
-  "appVersionCode": 10,
+  "appVersionCode": 12,
   "shortcuts": [
     {
       "name": "Go to Subscriptions",
@@ -59,7 +59,7 @@
   "fullScopeUrl": "__FORAGD_BASEURL__/",
   "minSdkVersion": 24,
   "orientation": "any",
-  "fingerprints": __ANDROID_KEYSTORE_FINGERPRINT__,
+  "fingerprints": {},
   "additionalTrustedOrigins": [],
   "retainedBundles": [],
   "protocolHandlers": [
