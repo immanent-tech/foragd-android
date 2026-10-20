@@ -4,40 +4,28 @@ set -x
 
 cd /workspace
 
+sudo chown -R ubuntu:ubuntu /workspace/node_modules \
+    /workspace/.gradle \
+    /workspace/build \
+    /workspace/app
+
 # Download and install node:
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.6/install.sh | bash && \
-    bash -c '\. "/home/ubuntu/.config/nvm/nvm.sh" && nvm install 24' && \
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.8/install.sh | bash && \
+    bash -c '\. "/home/ubuntu/.nvm/nvm.sh" && nvm install 24' && \
     node -v && npm -v
 
-# Download and install docker.
-cd /tmp && \
-    curl -fsSL https://get.docker.com -o get-docker.sh && sudo sh ./get-docker.sh && rm /tmp/get-docker.sh
-
-# Dowload and install starship.
-cd /tmp && curl -sS https://starship.rs/install.sh | sh -s -- -y
-mkdir -p ~/.config/fish \
-    && echo "starship init fish | source" >>~/.config/fish/config.fish \
-    && echo 'eval "$(starship init bash)"' >>~/.bashrc
-
-
 # Update JS packages with bun.
-npm clean-install || exit -1
+if [[ -e ./package.json ]]; then
+    npm clean-install || exit -1
+fi
 echo 'set --export PATH "/workspace/node_modules/.bin" $PATH' >> ~/.config/fish/config.fish
+echo 'export PATH=/workspace/node_modules/.bin:${PATH}' >> ~/.bashrc
 
-# Install Go packages.
-echo 'set --export PATH "$HOME/go/bin" /go/bin /usr/local/go/bin $PATH' >> ~/.config/fish/config.fish
-export PATH="$HOME/go/bin:/go/bin:/usr/local/go/bin:$PATH" && \
-    go mod tidy && \
-    go install golang.org/x/tools/gopls@latest && \
-    go install github.com/sigstore/cosign/v3/cmd/cosign@latest && \
-    go install github.com/magefile/mage@latest && \
-    curl -sSfL https://golangci-lint.run/install.sh | sh -s -- -b $(go env GOPATH)/bin v2.8.0 && \
-    golangci-lint custom && \
-    mv /tmp/golangci-lint-v2 $(go env GOPATH)/bin/
-
-# Setup docker buildx.
-docker buildx create --name default-rootless --driver=docker-container --driver-opt=image=moby/buildkit:buildx-stable-1-rootless --driver-opt default-load=true \
-    && docker buildx use default-rootless \
-    && docker buildx inspect --bootstrap default-rootless
+# Install oh-my-posh.
+mkdir -p ~/.local/bin && curl -s https://ohmyposh.dev/install.sh | bash -s
+# Set up shells to use oh-my-posh.
+mkdir -p ~/.config/fish \
+    && echo "~/.local/bin/oh-my-posh init fish | source" >>~/.config/fish/config.fish \
+    && echo 'eval "$(~/.local/bin/oh-my-posh init bash)""' >>~/.bashrc
 
 exit 0

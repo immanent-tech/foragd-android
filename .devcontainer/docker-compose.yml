@@ -6,9 +6,12 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - ..:/workspace:cached
-      - /etc/localtime:/etc/localtime:ro,cached
-      - /run/user/1000/podman/podman.sock:/var/run/docker.sock:rw
+      - ..:/workspace
+      - foragd-android-node_modules:/workspace/node_modules
+      - foragd-android-gradle:/workspace/.gradle
+      - foragd-android-build:/workspace/build
+      - foragd-android-datahome:/datahome
+      - /etc/localtime:/etc/localtime:ro
     command: -c 'sleep infinity'
     user: ubuntu
     init: true
@@ -26,3 +29,9 @@ services:
         soft: 65535
         hard: 65535
       nproc: 65535
+volumes:
+  foragd-android-datahome:
+  foragd-android-node_modules:
+  foragd-android-gradle:
+  foragd-android-build:
+
